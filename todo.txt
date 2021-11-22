@@ -12,6 +12,11 @@ add 3 firing modes (step 6)
 add particle spin (step 7)
 add particle friction (step 8)
 add reset (step 9)
+add trails (step 10)
+add lighting (step 14)
+add textures to surface (step 16)
+add mode for different colours, size and behaviour of particles (step 18)
+add a square hole in the ground (step 19)
 
 
 	
