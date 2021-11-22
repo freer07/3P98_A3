@@ -1,0 +1,17 @@
+TODO:
+
+define a plane
+define a cannon
+define a target
+define a particle 
+
+add speed(S key) event changes (step 3)
+add particle bounce (step 4)
+add particle death (step 5 in document)
+add 3 firing modes (step 6)
+add particle spin (step 7)
+add particle friction (step 8)
+add reset (step 9)
+
+
+	
