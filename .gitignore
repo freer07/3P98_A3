@@ -42,7 +42,7 @@ Debug/vc142.pdb
 *.db
 *.ipch
 *.ipch
-.vs/3P98-2021-Template/v16/.suo
+.vs/
 /build/
 *.suo
 *.user

@@ -1,5 +1,7 @@
 ﻿  Source.cpp
-C:\Users\chase\OneDrive\Desktop\COSC 3P98\Assignment3\3P98_A3\Source.cpp(36,42): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\chase\OneDrive\Desktop\COSC 3P98\Assignment3\3P98_A3\Source.cpp(108,67): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\chase\OneDrive\Desktop\COSC 3P98\Assignment3\3P98_A3\Source.cpp(111,67): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  3P98-2021-Template.vcxproj -> C:\Users\chase\OneDrive\Desktop\COSC 3P98\Assignment3\3P98_A3\Debug\3P98-2021-Template.exe
+C:\Users\chase\OneDrive\Desktop\COSC 3P98\Assignment3\3P98_A3\Source.h(41,6): warning C4200: nonstandard extension used: zero-sized array in struct/union
+C:\Users\chase\OneDrive\Desktop\COSC 3P98\Assignment3\3P98_A3\Source.h(41,6): message : This member will be ignored by a defaulted constructor or copy/move assignment operator
+C:\Users\chase\OneDrive\Desktop\COSC 3P98\Assignment3\3P98_A3\Source.h(42,8): error C2229: struct '<unnamed-tag>' has an illegal zero-sized array
+C:\Users\chase\OneDrive\Desktop\COSC 3P98\Assignment3\3P98_A3\Source.h(50,4): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\chase\OneDrive\Desktop\COSC 3P98\Assignment3\3P98_A3\Source.cpp(75,50): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\chase\OneDrive\Desktop\COSC 3P98\Assignment3\3P98_A3\Source.cpp(75,30): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
