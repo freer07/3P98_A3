@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+Debug/vc142.pdb
+.vs/3P98-2021-Template/v16/.suo
+.vs/3P98-2021-Template/v16/.suo
+.vs/3P98-2021-Template/v16/Browse.VC.db
+Debug/vc142.pdb
+*.idb
+*.pdb
+*.db-shm
+*.db-wal
+*.db
+*.ipch
+*.ipch
