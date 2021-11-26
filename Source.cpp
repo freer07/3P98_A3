@@ -8,6 +8,8 @@
 #include <FreeImage.h>
 #include <vector>
 #include "Source.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 
 void userintro() {
@@ -18,17 +20,79 @@ void userintro() {
     printf("q = quit\n");*/
 }
 
+void drawCannon(void) {
+    //cannon 
+    float l = 20, x = 0, z = 80;
+
+    int cannon[][3] = { {x - (l / 2), 0, z - (l / 2)}, {x + (l / 2), 0, z - (l / 2)}, {x + (l / 2), 0, z + (l / 2)}, {x - (l / 2), 0, z + (l / 2)},
+                        {x - (l / 2), 0, z - (l / 2)}, {x + (l / 2), 0, z - (l / 2)}, {x + (l / 2), l, z - (l / 2)}, {x - (l / 2), l, z - (l / 2)},
+                        {x + (l / 2), 0, z - (l / 2)}, {x + (l / 2), 0, z + (l / 2)}, {x + (l / 2), l, z + (l / 2)}, {x + (l / 2), l, z - (l / 2)},
+                        {x + (l / 2), 0, z + (l / 2)}, {x - (l / 2), 0, z + (l / 2)}, {x - (l / 2), l, z + (l / 2)}, {x + (l / 2), l, z + (l / 2)},
+                        {x - (l / 2), 0, z + (l / 2)}, {x - (l / 2), 0, z - (l / 2)}, {x - (l / 2), l, z - (l / 2)}, {x - (l / 2), l, z + (l / 2)},
+                        {x - (l / 2), l, z - (l / 2)}, {x + (l / 2), l, z - (l / 2)}, {x + (l / 2), l, z + (l / 2)}, {x - (l / 2), l, z + (l / 2)}
+                    };
+    glColor3f(1.0, 0.0, 0.0);
+    glBegin(GL_QUADS);
+    glVertex3iv(cannon[0]);
+    glVertex3iv(cannon[1]);
+    glVertex3iv(cannon[2]);
+    glVertex3iv(cannon[3]);
+    glEnd();
+
+
+    glBegin(GL_QUADS);
+    glVertex3iv(cannon[4]);
+    glVertex3iv(cannon[5]);
+    glVertex3iv(cannon[6]);
+    glVertex3iv(cannon[7]);
+    glEnd();
+
+
+    glBegin(GL_QUADS);
+    glVertex3iv(cannon[8]);
+    glVertex3iv(cannon[9]);
+    glVertex3iv(cannon[10]);
+    glVertex3iv(cannon[11]);
+    glEnd();
+        
+    glBegin(GL_QUADS);
+    glVertex3iv(cannon[12]);
+    glVertex3iv(cannon[13]);
+    glVertex3iv(cannon[14]);
+    glVertex3iv(cannon[15]);
+    glEnd();
+
+    
+    glBegin(GL_QUADS);
+    glVertex3iv(cannon[16]);
+    glVertex3iv(cannon[17]);
+    glVertex3iv(cannon[18]);
+    glVertex3iv(cannon[19]);
+    glEnd();
+
+    
+    glBegin(GL_QUADS);
+    glVertex3iv(cannon[20]);
+    glVertex3iv(cannon[21]);
+    glVertex3iv(cannon[22]);
+    glVertex3iv(cannon[23]);
+    glEnd();
+}
 
 void draw(void) {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
+
+    glColor3f(1.0, 1.0, 1.0);
     glBegin(GL_QUADS);
     glVertex3iv(global.ground[0]);
     glVertex3iv(global.ground[1]);
     glVertex3iv(global.ground[2]);
     glVertex3iv(global.ground[3]);
     glEnd();
+
+    drawCannon();
 
     glutSwapBuffers();
     glFlush();

@@ -1,9 +1,6 @@
 TODO:
 
-define a plane
-define a cannon
 define a target
-define a particle 
 
 add speed(S key) event changes (step 3)
 add particle bounce (step 4)
