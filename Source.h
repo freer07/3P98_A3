@@ -12,15 +12,17 @@ class Particle
 public:
 	Particle();
 	~Particle();
-	int position[3];//x,y,z
-	int direction[3];//x,y,z
-	int color[3];//r,g,b
-	int speed;
-	float angle;
-	float angleSpeed;
-	int size;//used to scale the particle
-	int shape;//0 circle, 1 square, etc.
+	float position[3];//x,y,z
+	float direction[3];//x,y,z
+	float speed;
 	int age;
+
+	//TODO: Implement these attributes
+	//float color[3];//r,g,b	
+	//float angle;
+	//float angleSpeed;
+	//int size;//used to scale the particle
+	//int shape;//0 circle, 1 square, etc.	
 
 private:
 
@@ -28,6 +30,17 @@ private:
 
 Particle::Particle()
 {
+	age = 0;
+	//default location at 'end' of cannon
+	position[0] = 0;//x
+	position[1] = 10;//y
+	position[2] = -70;//z
+
+	direction[0] = 0;//x
+	direction[1] = 1;//y
+	direction[2] = 1;//z
+
+	speed = 3;	
 }
 
 Particle::~Particle()
@@ -39,12 +52,14 @@ typedef struct {
 	float screenSizeX, screenSizeY;
 	float orthoX, orthoY, orthoZ;
 	float grav;
+	int frameRate;
 	int ground[][3];
 } glob;
 
 glob global	= {	{}, 
-				500, 500, 
+				600, 600, 
 				100, 100, 100, 
-				9.8,
+				0.5,
+				50,
 				{ {-100,0,-100}, {100,0,-100}, {100,0,100}, {-100,0,100} } 
 			};
