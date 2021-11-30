@@ -14,15 +14,45 @@ using namespace std;
 
 //this is the update function for the frames
 void update(int val) {
+    vector<int> oldParticles;
     
+    int index = 0;
     //interate through the particles and update their position
     for (auto& particle : global.particles) // access by reference to avoid copying
     {
         particle.position[0] = particle.position[0] + particle.direction[0] * particle.speed;
         particle.position[1] = particle.position[1] + particle.direction[1] * particle.speed;
         particle.position[2] = particle.position[2] + particle.direction[2] * particle.speed;
-
+        
+        //gravity 
         particle.direction[1] = particle.direction[1] - global.grav;
+
+        //ground limit (bounce)
+        if (particle.position[1] < 0) {
+            particle.position[1] = 0;
+            particle.direction[1] = particle.direction[1] * -1;
+            particle.speed = particle.speed - global.frict;
+        }
+
+        
+
+        //prevent negative speed 
+        if (particle.speed < 0) {
+            particle.speed = 0;
+        }
+        
+        if (particle.age > 150 || particle.position[1] < -100) {
+            oldParticles.push_back(index);
+        }
+
+        particle.age++;
+        index++;
+    }
+
+    //kill old particles
+    for (auto& index : oldParticles) 
+    {
+        global.particles.erase(global.particles.begin() + index);
     }
 
 
@@ -194,7 +224,7 @@ int main(int argc, char** argv) {
 
     glMatrixMode(GL_MODELVIEW);
     glRotatef(25.0, 1.0, 0.0, 0.0);//rotate the viewing angle 
-    glRotatef(85.0, 0.0, 1.0, 0.0);//rotate the viewing angle 
+    glRotatef(70.0, 0.0, 1.0, 0.0);//rotate the viewing angle 
 
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable(GL_DEPTH_TEST);

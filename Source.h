@@ -40,7 +40,7 @@ Particle::Particle()
 	direction[1] = 1;//y
 	direction[2] = 1;//z
 
-	speed = 3;	
+	speed = 1;	
 }
 
 Particle::~Particle()
@@ -52,14 +52,16 @@ typedef struct {
 	float screenSizeX, screenSizeY;
 	float orthoX, orthoY, orthoZ;
 	float grav;
+	float frict;
 	int frameRate;
 	int ground[][3];
 } glob;
 
-glob global	= {	{}, 
-				600, 600, 
-				100, 100, 100, 
-				0.5,
+glob global = { {},
+				600, 600,
+				100, 100, 100,
+				0.3,
+				0.3,
 				50,
 				{ {-100,0,-100}, {100,0,-100}, {100,0,100}, {-100,0,100} } 
 			};
