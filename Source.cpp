@@ -12,6 +12,13 @@
 #include <math.h>
 using namespace std;
 
+int isInHole(float x, float z) {
+    if (z > 50 && z < 70 && x > -10 && x < 10) {
+        return 1;
+    }
+    return 0;
+}
+
 //this is the update function for the frames
 void update(int val) {
     vector<int> oldParticles;
@@ -25,13 +32,18 @@ void update(int val) {
         particle.position[2] = particle.position[2] + particle.direction[2] * particle.speed;
         
         //gravity 
-        particle.direction[1] = particle.direction[1] - global.grav;
+        particle.direction[1] = particle.direction[1] - global.grav;        
 
         //ground limit (bounce)
-        if (particle.position[1] < 0) {
-            particle.position[1] = 0;
-            particle.direction[1] = particle.direction[1] * -1;
-            particle.speed = particle.speed - global.frict;
+        if (particle.position[1] < 0 && !particle.fallenOff) {
+            if (isInHole(particle.position[0], particle.position[2])) {
+                particle.fallenOff = 1;
+            }
+            else {
+                particle.position[1] = 0;
+                particle.direction[1] = particle.direction[1] * -1;
+                particle.speed = particle.speed - global.frict;
+            }            
         }
 
         
@@ -80,6 +92,37 @@ void displayParticles(void) {
         glVertex3f(particle.position[0], particle.position[1], particle.position[2]);
         glEnd();
     }
+}
+
+void displayGround(void) {
+    glColor3f(1.0, 1.0, 1.0);
+    glBegin(GL_QUADS);
+    glVertex3iv(global.ground[0]);
+    glVertex3iv(global.ground[1]);
+    glVertex3iv(global.ground[2]);
+    glVertex3iv(global.ground[3]);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex3iv(global.ground[4]);
+    glVertex3iv(global.ground[5]);
+    glVertex3iv(global.ground[6]);
+    glVertex3iv(global.ground[7]);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex3iv(global.ground[8]);
+    glVertex3iv(global.ground[9]);
+    glVertex3iv(global.ground[10]);
+    glVertex3iv(global.ground[11]);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex3iv(global.ground[12]);
+    glVertex3iv(global.ground[13]);
+    glVertex3iv(global.ground[14]);
+    glVertex3iv(global.ground[15]);
+    glEnd();
 }
 
 void displayCannon(void) {
@@ -146,14 +189,7 @@ void display(void) {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
-
-    glColor3f(1.0, 1.0, 1.0);
-    glBegin(GL_QUADS);
-    glVertex3iv(global.ground[0]);
-    glVertex3iv(global.ground[1]);
-    glVertex3iv(global.ground[2]);
-    glVertex3iv(global.ground[3]);
-    glEnd();
+    displayGround();
 
     displayCannon();
 
