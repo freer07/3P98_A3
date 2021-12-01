@@ -256,14 +256,22 @@ int main(int argc, char** argv) {
     //glutIdleFunc(draw);    
 
     glMatrixMode(GL_PROJECTION);
-    glOrtho(-1*global.orthoX, global.orthoX, -1*global.orthoY, global.orthoY, -1*global.orthoZ, global.orthoZ);
+    //glOrtho(-1*global.orthoX, global.orthoX, -1*global.orthoY, global.orthoY, -1*global.orthoZ, global.orthoZ);
+    gluPerspective(70.0, 1.0, 0.1, -100.0);
 
     glMatrixMode(GL_MODELVIEW);
-    glRotatef(25.0, 1.0, 0.0, 0.0);//rotate the viewing angle 
-    glRotatef(70.0, 0.0, 1.0, 0.0);//rotate the viewing angle 
+    //glRotatef(25.0, 1.0, 0.0, 0.0);//rotate the viewing angle 
+    //glRotatef(70.0, 0.0, 1.0, 0.0);//rotate the viewing angle 
+    gluLookAt(70, 60.0, 100.0, 
+        0, 0, 0, 
+        0.0, 1.0, 0.0);
 
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable(GL_DEPTH_TEST);
+
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CW);
 
     glutMainLoop();
 }
