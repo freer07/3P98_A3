@@ -1,11 +1,8 @@
 TODO:
 
-define a target
-
-add speed(S key) event changes (step 3)
-add 3 firing modes (step 6)
 add particle spin (step 7)
-add reset (step 9)
+toggle between flat shaded and Gouraud shaded
+
 add trails (step 10)
 add lighting (step 14)
 add textures to surface (step 16)

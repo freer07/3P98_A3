@@ -13,6 +13,10 @@
 #include <math.h>
 using namespace std;
 
+#define X 0
+#define Y 1
+#define Z 2
+
 int isInHole(float x, float z) {
     if (z > 50 && z < 70 && x > -10 && x < 10) {
         return 1;
@@ -22,6 +26,9 @@ int isInHole(float x, float z) {
 
 //this is the update function for the frames
 void update(int val) {
+    if (global.fireMode == 0 && global.particles.size() < 500) {
+        fireParticle();
+    }
 
     //interate through the particles and update their position
     for (auto& particle : global.particles) // access by reference to avoid copying
@@ -73,11 +80,18 @@ void update(int val) {
 }
 
 void userintro() {
-    /*printf("Left mouse = rotate left faster\n");
+    printf("---Toggle Fire Modes---\n");
+    printf("1 = (default) constant stream\n");
+    printf("2 = Full Auto ('F' to fire)\n");
+    printf("3 = Semi-Auto ('F' to fire)\n");
+    printf("---------------------------\n");
+    printf("S = start/stop random speeds\n");
+    printf("Left mouse = rotate left faster\n");
     printf("Right mouse = rotate right faster\n");
     printf("Middle mouse = reset\n");
     printf("x, y, z = rotate about x, y, or z axis\n");
-    printf("q = quit\n");*/
+    printf("R = reset simulation(including orientation)\n");
+    printf("Q = quit");
 }
 
 void displayParticles(void) {
@@ -186,6 +200,10 @@ void display(void) {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
+    glRotatef(global.angle[0], 1.0, 0.0, 0.0);
+    glRotatef(global.angle[1], 0.0, 1.0, 0.0);
+    glRotatef(global.angle[2], 0.0, 0.0, 1.0);
+
     displayGround();
 
     displayCannon();
@@ -203,23 +221,89 @@ float randomFloat(float min, float max) {
 
 //this creates a new particle and adds it to the list
 void fireParticle(void) {
-    float dx, dy, dz;
-    dx = randomFloat(-1, 1); //random (-0.5, 0.5)
-    dy = randomFloat(0, 2); //random [1, 2)
-    dz = randomFloat(0, 2); //random [1, 2)
-    global.particles.push_back(Particle(dx, dy, dz));
+    float dx, speed = 1.0;
+    dx = randomFloat(-0.2, 0.2); //random (-0.5, 0.5)
+    if (global.speedInvoked) {
+        speed = randomFloat(1, 5);
+    }
+    global.particles.push_back(Particle(dx, 1, 1, speed));
     if (global.particles.size() > 500) {
         global.particles.erase(global.particles.begin());//oldest at front newest at back
+    }
+}
+
+void reset(void) {
+    global.particles.clear();
+    global.angle[X] = 0.0;
+    global.angle[Y] = 0.0;
+    global.angle[Z] = 0.0;
+    global.axis = 1;
+    glPopMatrix();
+    glPushMatrix();
+}
+
+void keyUp(unsigned char key, int x, int y) {
+    switch (key)
+    {
+    case 'f':
+    case 'F':
+        global.kPressed = 0;
+        break;
     }
 }
 
 void keyboard(unsigned char key, int x, int y) {
 
     switch (key) {
-
+    case '1':
+        global.fireMode = 0;
+        break;
+    case '2':
+        global.fireMode = 1;
+        break;
+    case '3':
+        global.fireMode = 2;
+        break;
+    case 's':
+    case 'S':
+    {
+        if (global.speedInvoked) {
+            global.speedInvoked = 0;
+        }
+        else {
+            global.speedInvoked = 1;
+        }
+        break;
+    }
     case 'f':
     case 'F':
-        fireParticle();
+    {
+        if (global.fireMode == 1) {
+            fireParticle();           
+        }
+        else if (global.fireMode == 2 && !global.kPressed) {
+            global.kPressed = 1;
+            fireParticle();
+        }
+        break;
+    }     
+    case 'x':
+    case 'X':
+        global.axis = X;
+        break;
+
+    case 'y':
+    case 'Y':
+        global.axis = Y;
+        break;
+
+    case 'z':
+    case 'Z':
+        global.axis = Z;
+        break;
+    case 'r':
+    case 'R':
+        reset();
         break;
     case 0x1B:
     case 'q':
@@ -230,26 +314,14 @@ void keyboard(unsigned char key, int x, int y) {
 }
 
 void mouse(int btn, int state, int x, int y) {
-
-    /*
-    printf("%3d, %3d, %f %f %f\n", btn, state,
-       global.angle[X],global.angle[Y],global.angle[Z]); */
-
-    /*if (state == GLUT_DOWN) {
+    if (state == GLUT_DOWN) {
         if (btn == GLUT_LEFT_BUTTON) {
             global.angle[global.axis] = global.angle[global.axis] + 0.2;
         }
         else if (btn == GLUT_RIGHT_BUTTON) {
             global.angle[global.axis] = global.angle[global.axis] - 0.2;
         }
-        else {
-            global.angle[X] = 0.0;
-            global.angle[Y] = 0.0;
-            global.angle[Z] = 0.0;
-            glPopMatrix();
-            glPushMatrix();
-        }
-    }*/
+    }
 }
 
 int main(int argc, char** argv) {
@@ -262,20 +334,17 @@ int main(int argc, char** argv) {
     glutCreateWindow("Particle Cannon");
     glutMouseFunc(mouse);
     glutKeyboardFunc(keyboard);
+    glutKeyboardUpFunc(keyUp);
     glutDisplayFunc(display);
     glutTimerFunc(global.frameRate, update, 0);
-    //glutIdleFunc(draw);    
 
     glMatrixMode(GL_PROJECTION);
-    //glOrtho(-1*global.orthoX, global.orthoX, -1*global.orthoY, global.orthoY, -1*global.orthoZ, global.orthoZ);
     gluPerspective(70.0, 1.0, 0.1, -100.0);
 
     glMatrixMode(GL_MODELVIEW);
-    //glRotatef(25.0, 1.0, 0.0, 0.0);//rotate the viewing angle 
-    //glRotatef(70.0, 0.0, 1.0, 0.0);//rotate the viewing angle 
-    gluLookAt(70, 60.0, 100.0, 
-        0, 0, 0, 
-        0.0, 1.0, 0.0);
+    gluLookAt(70, 60.0, 100.0, 0, 0, 0, 0.0, 1.0, 0.0);
+
+    glPushMatrix();
 
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable(GL_DEPTH_TEST);
