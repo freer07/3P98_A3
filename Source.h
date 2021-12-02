@@ -11,6 +11,7 @@ class Particle
 {
 public:
 	Particle();
+	Particle(float dx, float dy, float dz);
 	~Particle();
 	float position[3];//x,y,z
 	float direction[3];//x,y,z
@@ -42,7 +43,23 @@ Particle::Particle()
 	direction[2] = 1;//z
 	fallenOff = 0;
 
-	speed = 1;	
+	speed = 5;	
+}
+
+Particle::Particle(float dx, float dy, float dz)
+{
+	age = 0;
+	//default location at 'end' of cannon
+	position[0] = 0;//x
+	position[1] = 10;//y
+	position[2] = -70;//z
+
+	direction[0] = dx;//x
+	direction[1] = dy;//y
+	direction[2] = dz;//z
+	fallenOff = 0;
+
+	speed = 1;
 }
 
 Particle::~Particle()

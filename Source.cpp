@@ -6,6 +6,7 @@
 #include <malloc.h>
 #include <freeglut.h>
 #include <FreeImage.h>
+#include <time.h>
 #include <vector>
 #include "Source.h"
 #define _USE_MATH_DEFINES
@@ -21,9 +22,7 @@ int isInHole(float x, float z) {
 
 //this is the update function for the frames
 void update(int val) {
-    vector<int> oldParticles;
-    
-    int index = 0;
+
     //interate through the particles and update their position
     for (auto& particle : global.particles) // access by reference to avoid copying
     {
@@ -51,22 +50,20 @@ void update(int val) {
         //prevent negative speed 
         if (particle.speed < 0) {
             particle.speed = 0;
-        }
-        
-        if (particle.age > 150 || particle.position[1] < -100) {
-            oldParticles.push_back(index);
-        }
+        }        
 
         particle.age++;
-        index++;
     }
 
-    //kill old particles
-    for (auto& index : oldParticles) 
-    {
-        global.particles.erase(global.particles.begin() + index);
-    }
-
+    //kill particles
+    global.particles.erase(
+        remove_if(
+            global.particles.begin(),
+            global.particles.end(),
+            [](Particle const& p) { return p.speed <= 0 || p.position[1] < -100; }
+        ),
+        global.particles.end()
+    );
 
     //show the frame
     glutPostRedisplay();
@@ -199,9 +196,21 @@ void display(void) {
     glFlush();
 }
 
+float randomFloat(float min, float max) {
+    float random = (float)rand() / RAND_MAX;
+    return min + random * (max - min);
+}
+
 //this creates a new particle and adds it to the list
 void fireParticle(void) {
-    global.particles.push_back(Particle());
+    float dx, dy, dz;
+    dx = randomFloat(-1, 1); //random (-0.5, 0.5)
+    dy = randomFloat(0, 2); //random [1, 2)
+    dz = randomFloat(0, 2); //random [1, 2)
+    global.particles.push_back(Particle(dx, dy, dz));
+    if (global.particles.size() > 500) {
+        global.particles.erase(global.particles.begin());//oldest at front newest at back
+    }
 }
 
 void keyboard(unsigned char key, int x, int y) {
@@ -244,6 +253,8 @@ void mouse(int btn, int state, int x, int y) {
 }
 
 int main(int argc, char** argv) {
+    srand(time(NULL));
+
     userintro();
     glutInit(&argc, argv);
     glutInitWindowSize(global.screenSizeX, global.screenSizeY);
@@ -269,6 +280,7 @@ int main(int argc, char** argv) {
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable(GL_DEPTH_TEST);
 
+    //TODO: add toggle for face culling
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CW);
