@@ -17,8 +17,8 @@ using namespace std;
 #define Y 1
 #define Z 2
 
-int isInHole(float x, float z) {
-    if (z > 50 && z < 70 && x > -10 && x < 10) {
+int isOffLedge(float x, float z) {
+    if ((z > 50 && z < 70 && x > -10 && x < 10) || x > 100 || x < -100 || z > 100 || z < -100) {
         return 1;
     }
     return 0;
@@ -61,7 +61,7 @@ void update(int val) {
 
         //ground limit (bounce)
         if (particle.position[1] < 0 && !particle.fallenOff) {
-            if (isInHole(particle.position[0], particle.position[2])) {
+            if (isOffLedge(particle.position[0], particle.position[2])) {
                 particle.fallenOff = 1;
             }
             else {
