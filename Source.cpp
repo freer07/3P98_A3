@@ -24,6 +24,25 @@ int isInHole(float x, float z) {
     return 0;
 }
 
+int* getNormal(int pointA[3], int pointB[3], int pointC[3]) {
+    int* normal = (int*)malloc(sizeof(int) * 3);
+    int* vecA = (int*)malloc(sizeof(int) * 3);
+    int* vecB = (int*)malloc(sizeof(int) * 3);
+    vecA[0] = pointB[0] - pointA[0];
+    vecA[1] = pointB[1] - pointA[1];
+    vecA[2] = pointB[2] - pointA[2];
+
+    vecB[0] = pointC[0] - pointA[0];
+    vecB[1] = pointC[1] - pointA[1];
+    vecB[2] = pointC[2] - pointA[2];
+
+    normal[0] = vecA[1] * vecB[2] - vecA[2] * vecB[1];
+    normal[1] = vecA[2] * vecB[0] - vecA[0] * vecB[2];
+    normal[2] = vecA[0] * vecB[1] - vecA[1] * vecB[0];
+
+    return normal;
+}
+
 //this is the update function for the frames
 void update(int val) {
     if (global.fireMode == 0 && global.particles.size() < 500) {
@@ -97,7 +116,16 @@ void userintro() {
 void displayParticles(void) {
     for (auto& particle : global.particles) // access by reference to avoid copying
     {
+        GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+        GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+        GLfloat mat_specular[] = { 0.0, 0.0, 0.3, 1.0 };
+        GLfloat shiniess[] = { 0.80 };
         glColor3f(0.0, 0.0, 1.0);
+        int* normal = (int*)malloc(sizeof(int)*3);
+        normal[0] = 0;
+        normal[1] = 1;
+        normal[2] = 0;
+        glNormal3iv(normal);
         glPointSize(5.0f);
         glBegin(GL_POINTS);
         glVertex3f(particle.position[0], particle.position[1], particle.position[2]);
@@ -106,29 +134,47 @@ void displayParticles(void) {
 }
 
 void displayGround(void) {
+    GLfloat mat_ambient[] = { 0.7, 0.7, 0.7, 1.0 };
+    GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    GLfloat mat_specular[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat shiniess[] = { 0.0 };
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, shiniess);
+
     glColor3f(1.0, 1.0, 1.0);
-    glBegin(GL_QUADS);
+    int* normal0 = getNormal(global.ground[2], global.ground[1], global.ground[0]);
+    glNormal3iv(normal0);
+    glBegin(GL_POLYGON);
     glVertex3iv(global.ground[0]);
     glVertex3iv(global.ground[1]);
     glVertex3iv(global.ground[2]);
     glVertex3iv(global.ground[3]);
     glEnd();
 
-    glBegin(GL_QUADS);
+    int* normal1 = getNormal(global.ground[6], global.ground[5], global.ground[4]);
+    glNormal3iv(normal1);
+    glBegin(GL_POLYGON);
     glVertex3iv(global.ground[4]);
     glVertex3iv(global.ground[5]);
     glVertex3iv(global.ground[6]);
     glVertex3iv(global.ground[7]);
     glEnd();
 
-    glBegin(GL_QUADS);
+    int* normal2 = getNormal(global.ground[10], global.ground[9], global.ground[8]);
+    glNormal3iv(normal2);
+    glBegin(GL_POLYGON);
     glVertex3iv(global.ground[8]);
     glVertex3iv(global.ground[9]);
     glVertex3iv(global.ground[10]);
     glVertex3iv(global.ground[11]);
     glEnd();
 
-    glBegin(GL_QUADS);
+    int* normal3 = getNormal(global.ground[14], global.ground[13], global.ground[12]);
+    glNormal3iv(normal3);
+    glBegin(GL_POLYGON);
     glVertex3iv(global.ground[12]);
     glVertex3iv(global.ground[13]);
     glVertex3iv(global.ground[14]);
@@ -147,8 +193,20 @@ void displayCannon(void) {
                         {x - (l / 2), 0, z + (l / 2)}, {x - (l / 2), 0, z - (l / 2)}, {x - (l / 2), l, z - (l / 2)}, {x - (l / 2), l, z + (l / 2)},
                         {x - (l / 2), l, z - (l / 2)}, {x + (l / 2), l, z - (l / 2)}, {x + (l / 2), l, z + (l / 2)}, {x - (l / 2), l, z + (l / 2)}
                     };
+    GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+    GLfloat mat_specular[] = { 0.0, 0.0, 0.3, 1.0 };
+    GLfloat shiniess[] = { 0.30 };
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, shiniess);
+
     glColor3f(1.0, 0.0, 0.0);
-    glBegin(GL_QUADS);
+    int* normal0 = getNormal(cannon[2], cannon[1], cannon[0]);
+    glNormal3iv(normal0);
+    glBegin(GL_POLYGON);
     glVertex3iv(cannon[0]);
     glVertex3iv(cannon[1]);
     glVertex3iv(cannon[2]);
@@ -156,7 +214,9 @@ void displayCannon(void) {
     glEnd();
 
     glColor3f(1.0, 1.0, 0.0);
-    glBegin(GL_QUADS);
+    int* normal1 = getNormal(cannon[6], cannon[5], cannon[4]);
+    glNormal3iv(normal1);
+    glBegin(GL_POLYGON);
     glVertex3iv(cannon[4]);
     glVertex3iv(cannon[5]);
     glVertex3iv(cannon[6]);
@@ -164,7 +224,9 @@ void displayCannon(void) {
     glEnd();
 
     glColor3f(0.0, 1.0, 0.0);
-    glBegin(GL_QUADS);
+    int* normal2 = getNormal(cannon[10], cannon[9], cannon[8]);
+    glNormal3iv(normal2);
+    glBegin(GL_POLYGON);
     glVertex3iv(cannon[8]);
     glVertex3iv(cannon[9]);
     glVertex3iv(cannon[10]);
@@ -172,7 +234,9 @@ void displayCannon(void) {
     glEnd();
         
     glColor3f(0.0, 1.0, 1.0);
-    glBegin(GL_QUADS);
+    int* normal3 = getNormal(cannon[14], cannon[13], cannon[12]);
+    glNormal3iv(normal3);
+    glBegin(GL_POLYGON);
     glVertex3iv(cannon[12]);
     glVertex3iv(cannon[13]);
     glVertex3iv(cannon[14]);
@@ -180,15 +244,19 @@ void displayCannon(void) {
     glEnd();
 
     glColor3f(0.0, 0.0, 1.0);
-    glBegin(GL_QUADS);
+    int* normal4 = getNormal(cannon[18], cannon[17], cannon[16]);
+    glNormal3iv(normal4);
+    glBegin(GL_POLYGON);
     glVertex3iv(cannon[16]);
     glVertex3iv(cannon[17]);
     glVertex3iv(cannon[18]);
     glVertex3iv(cannon[19]);
     glEnd();
 
-    glColor3f(1.0, 1.0, .0);
-    glBegin(GL_QUADS);
+    glColor3f(1.0, 1.0, 0.0);
+    int* normal5 = getNormal(cannon[22], cannon[21], cannon[20]);
+    glNormal3iv(normal5);
+    glBegin(GL_POLYGON);
     glVertex3iv(cannon[20]);
     glVertex3iv(cannon[21]);
     glVertex3iv(cannon[22]);
@@ -196,7 +264,7 @@ void displayCannon(void) {
     glEnd();
 }
 
-void display(void) {
+void display(void) {    
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
@@ -324,6 +392,28 @@ void mouse(int btn, int state, int x, int y) {
     }
 }
 
+void lightInit() {
+    GLfloat ambient[] = { 0.1, 0.1, 0.1, 1.0 };
+    GLfloat diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat position[] = { 0.5, 0.5, 1.0, 0.0 };
+    GLfloat lmodel_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    GLfloat local_view[] = { 0.0 };
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
+    glLightModelfv(GL_LIGHT_MODEL_LOCAL_VIEWER, local_view);
+
+    glShadeModel(GL_FLAT);
+
+    glEnable(GL_LIGHTING);   /* turns on lighting */
+    glEnable(GL_LIGHT0);     /* turns on light 0  */
+    glEnable(GL_NORMALIZE);
+}
+
 int main(int argc, char** argv) {
     srand(time(NULL));
 
@@ -348,6 +438,7 @@ int main(int argc, char** argv) {
 
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable(GL_DEPTH_TEST);
+    lightInit();
 
     //TODO: add toggle for face culling
     glEnable(GL_CULL_FACE);
