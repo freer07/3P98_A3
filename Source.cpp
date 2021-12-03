@@ -118,8 +118,13 @@ void displayParticles(void) {
     {
         GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
         GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
-        GLfloat mat_specular[] = { 0.0, 0.0, 0.3, 1.0 };
+        GLfloat mat_specular[] = { 0.9, 0.0, 0.0, 1.0 };
         GLfloat shiniess[] = { 0.80 };
+        glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+        glMaterialfv(GL_FRONT, GL_SHININESS, shiniess);
+
         glColor3f(0.0, 0.0, 1.0);
         int* normal = (int*)malloc(sizeof(int)*3);
         normal[0] = 0;
