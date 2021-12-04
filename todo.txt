@@ -1,10 +1,8 @@
 TODO:
 
 add particle spin (step 7)
-toggle between flat shaded and Gouraud shaded
 
 add trails (step 10)
-add lighting (step 14)
 add textures to surface (step 16)
 add mode for different colours, size and behaviour of particles (step 18)
 
