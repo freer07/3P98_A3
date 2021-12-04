@@ -105,6 +105,8 @@ void userintro() {
     printf("3 = Semi-Auto ('F' to fire)\n");
     printf("---------------------------\n");
     printf("S = start/stop random speeds\n");
+    printf("G = Gouraud shaded\n");
+    printf("H = (default)Flat shaded\n");
     printf("Left mouse = rotate left faster\n");
     printf("Right mouse = rotate right faster\n");
     printf("Middle mouse = reset\n");
@@ -328,6 +330,14 @@ void keyUp(unsigned char key, int x, int y) {
 void keyboard(unsigned char key, int x, int y) {
 
     switch (key) {
+    case 'h':
+    case 'H':
+        glShadeModel(GL_FLAT);
+        break;
+    case 'g':
+    case 'G':
+        glShadeModel(GL_SMOOTH);
+        break;
     case '1':
         global.fireMode = 0;
         break;
