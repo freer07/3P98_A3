@@ -83,6 +83,34 @@ void userintro() {
     printf("q = quit\n");*/
 }
 
+void GlowTrail(void) {
+    for (auto& particle : global.particles) // access by reference to avoid copying
+    {
+        GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+        GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+        GLfloat mat_specular[] = { 0.8, 0.6, 0.0, 0.6 };
+        GLfloat shiniess[] = { 0.80 };
+        glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+        glMaterialfv(GL_FRONT, GL_SHININESS, shiniess);
+
+        glColor3f(0.0, 0.0, 1.0);
+        int* normal = (int*)malloc(sizeof(int) * 3);
+        normal[0] = 0;
+        normal[1] = 1;
+        normal[2] = 0;
+        glNormal3iv(normal);
+        glPointSize(2.0f);
+        glBegin(GL_LINES);
+        for (int i = 0; i < 2; i++) {
+            glVertex3f(particle.position[0], particle.position[1], particle.position[2] - 1);
+            glVertex3f(particle.position[0], particle.position[1], particle.position[2] - 5);
+        }
+        glEnd();
+    }
+}
+
 void displayParticles(void) {
     for (auto& particle : global.particles) // access by reference to avoid copying
     {
@@ -90,6 +118,41 @@ void displayParticles(void) {
         glPointSize(5.0f);
         glBegin(GL_POINTS);
         glVertex3f(particle.position[0], particle.position[1], particle.position[2]);
+        glEnd();
+    }
+}
+
+void drawParticles(void) {
+    for (auto& particle : global.particles) // access by reference to avoid copying
+    {
+        GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+        GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+        GLfloat mat_specular[] = { 0.0, 0.7, 0.9, 1.0 };
+        GLfloat shiniess[] = { 0.80 };
+        glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+        glMaterialfv(GL_FRONT, GL_SHININESS, shiniess);
+
+        //glColor3f(0.0, 0.0, 1.0);
+        float l = 2, x = particle.position[0], y = particle.position[1], z = particle.position[2];
+        int* normal = (int*)malloc(sizeof(int) * 3);
+        normal[0] = 0;
+        normal[1] = 1;
+        normal[2] = 0;
+        glNormal3iv(normal);
+        float cube[][3] = {
+                            {x - (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y - (l / 2), z + (l / 2)}, {x - (l / 2), y - (l / 2), z + (l / 2)},
+                            {x - (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y + (l / 2), z - (l / 2)}, {x - (l / 2), y + (l / 2), z - (l / 2)},
+                            {x + (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y - (l / 2), z + (l / 2)}, {x + (l / 2), y + (l / 2), z + (l / 2)}, {x + (l / 2), y + (l / 2), z - (l / 2)},
+                            {x + (l / 2), y - (l / 2), z + (l / 2)}, {x - (l / 2), y - (l / 2), z + (l / 2)}, {x - (l / 2), y + (l / 2), z + (l / 2)}, {x + (l / 2), y + (l / 2), z + (l / 2)},
+                            {x - (l / 2), y - (l / 2), z + (l / 2)}, {x - (l / 2), y - (l / 2), z - (l / 2)}, {x - (l / 2), y + (l / 2), z - (l / 2)}, {x - (l / 2), y + (l / 2), z + (l / 2)},
+                            {x - (l / 2), y + (l / 2), z - (l / 2)}, {x + (l / 2), y + (l / 2), z - (l / 2)}, {x + (l / 2), y + (l / 2), z + (l / 2)}, {x - (l / 2), y + (l / 2), z + (l / 2)}
+        };
+        glBegin(GL_QUADS);
+        for (int i = 0; i < 24; i++) {
+            glVertex3fv(cube[i]);
+        }
         glEnd();
     }
 }
@@ -193,7 +256,10 @@ void display(void) {
 
     displayCannon();
 
-    displayParticles();
+    //displayParticles();
+    drawParticles();
+
+    GlowTrail();
 
     glutSwapBuffers();
     glFlush();
@@ -265,6 +331,9 @@ int main(int argc, char** argv) {
     gluLookAt(70, 60.0, 100.0, 
         0, 0, 0, 
         0.0, 1.0, 0.0);
+    //gluLookAt(70, 60.0, 100.0, 0, 0, 0, 0.0, 1.0, 0.0);
+
+    glPushMatrix();
 
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable(GL_DEPTH_TEST);

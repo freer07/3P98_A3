@@ -14,6 +14,7 @@ public:
 	~Particle();
 	float position[3];//x,y,z
 	float direction[3];//x,y,z
+	float angle[3];//x,y,z
 	float speed;
 	int age;
 	int fallenOff;
@@ -52,7 +53,6 @@ Particle::~Particle()
 typedef struct {
 	vector<Particle> particles;
 	float screenSizeX, screenSizeY;
-	float orthoX, orthoY, orthoZ;
 	float grav;
 	float frict;
 	int frameRate;
@@ -61,7 +61,6 @@ typedef struct {
 
 glob global = { {},
 				500, 500,
-				100, 100, 100,
 				0.3,
 				0.3,
 				50,
