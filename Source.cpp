@@ -236,23 +236,59 @@ void drawParticles(void) {
             glEnd();
         }
         if (poly == 1) {
-            float tetra[][3] = {
+            int tetra[][3] = {
                                {x, y + (l / 2), z},
                                {x - (l / 2), y - (l / 2), z + (l / 2)},
                                {x + (l / 2), y - (l / 2), z},
                                {x - (l / 2), y - (l / 2), z - (l / 2)},
             };
-            glColor3f(0.0, 0.0, 0.1);
-            glBegin(GL_TRIANGLE_STRIP);
-            for (int i = 0; i < 4; i++) {
-                /*glColor3fv(color[c]);
-                c++;*/
-                glVertex3fv(tetra[i]);
-            }
-            glColor3fv(color[0]);
-            glVertex3fv(tetra[0]);
-            glColor3fv(color[1]);
-            glVertex3fv(tetra[1]);
+            //glColor3f(0.0, 0.0, 0.1);
+            //glBegin(GL_TRIANGLE_STRIP);
+            //for (int i = 0; i < 4; i++) {
+            //    /*glColor3fv(color[c]);
+            //    c++;*/
+            //    glVertex3fv(tetra[i]);
+            //}
+            //glColor3fv(color[0]);
+            //glVertex3fv(tetra[0]);
+            //glColor3fv(color[1]);
+            //glVertex3fv(tetra[1]);
+            //glEnd();
+
+            glColor3f(1.0, 0.0, 0.0);
+            int* normal0 = getNormal(tetra[2], tetra[3], tetra[0]);
+            glNormal3iv(normal0);
+            glBegin(GL_POLYGON);
+            glVertex3iv(tetra[0]);
+            glVertex3iv(tetra[3]);
+            glVertex3iv(tetra[2]);
+            glEnd();
+
+            glColor3f(1.0, 0.0, 0.0);
+            int* normal1 = getNormal(tetra[3], tetra[1], tetra[0]);
+            glNormal3iv(normal1);
+            glBegin(GL_POLYGON);
+            glVertex3iv(tetra[0]);
+            glVertex3iv(tetra[1]);
+            glVertex3iv(tetra[3]);
+            glEnd();
+
+            glColor3f(1.0, 0.0, 0.0);
+            int* normal2 = getNormal(tetra[1], tetra[2], tetra[0]);
+            glNormal3iv(normal2);
+            glBegin(GL_POLYGON);
+            glVertex3iv(tetra[0]);
+            glVertex3iv(tetra[2]);
+            glVertex3iv(tetra[1]);
+            glEnd();
+
+            glColor3f(1.0, 0.0, 0.0);
+            int* normal3 = getNormal(tetra[2], tetra[3], tetra[1]);
+            glNormal3iv(normal3);
+            glBegin(GL_POLYGON);
+            glVertex3iv(tetra[1]);
+            glVertex3iv(tetra[3]);
+            glVertex3iv(tetra[2]);
             glEnd();
         }
         if (poly == 2) {
