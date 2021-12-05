@@ -15,6 +15,7 @@ public:
 	float position[3];//x,y,z
 	float direction[3];//x,y,z
 	float angle[3];//x,y,z
+	int shape;
 	float speed;
 	int age;
 	int fallenOff;
