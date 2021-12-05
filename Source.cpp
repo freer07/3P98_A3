@@ -140,6 +140,131 @@ void displayParticles(void) {
     }
 }
 
+void drawParticles(void) {
+    for (auto& particle : global.particles) // access by reference to avoid copying
+    {
+
+        GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+        GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
+        GLfloat mat_specular[] = { 0.9, 0.0, 0.0, 1.0 };
+        GLfloat shiniess[] = { 0.80 };
+        glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+        glMaterialfv(GL_FRONT, GL_SHININESS, shiniess);
+
+        int numsides;
+        float color[][3] = {
+                            {1.0,0.0,0.0},
+                            {0.0,1.0,0.0},
+                            {0.0,0.0,1.0},
+                            {0.0,1.0,1.0},
+                            {1.0,1.0,0.0},
+                            {0.0,1.0,1.0}
+        };
+        int c = 0;
+        float l = particle.size;
+        float x = particle.position[0], y = particle.position[1], z = particle.position[2];
+        int poly = particle.shape;
+        //float triangle[][3] = { {x, y + (l / 2), z}, {x - (l / 2), y - (l / 2), z}, {x, y - (l / 2), z - (l / 2)} };
+        if (poly == 0) {
+            int cube[][3] = { {x - (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y - (l / 2), z + (l / 2)}, {x - (l / 2), y - (l / 2), z + (l / 2)},
+                                {x - (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y + (l / 2), z - (l / 2)}, {x - (l / 2), y + (l / 2), z - (l / 2)},
+                                {x + (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y - (l / 2), z + (l / 2)}, {x + (l / 2), y + (l / 2), z + (l / 2)}, {x + (l / 2), y + (l / 2), z - (l / 2)},
+                                {x + (l / 2), y - (l / 2), z + (l / 2)}, {x - (l / 2), y - (l / 2), z + (l / 2)}, {x - (l / 2), y + (l / 2), z + (l / 2)}, {x + (l / 2), y + (l / 2), z + (l / 2)},
+                                {x - (l / 2), y - (l / 2), z + (l / 2)}, {x - (l / 2), y - (l / 2), z - (l / 2)}, {x - (l / 2), y + (l / 2), z - (l / 2)}, {x - (l / 2), y + (l / 2), z + (l / 2)},
+                                {x - (l / 2), y + (l / 2), z - (l / 2)}, {x + (l / 2), y + (l / 2), z - (l / 2)}, {x + (l / 2), y + (l / 2), z + (l / 2)}, {x - (l / 2), y + (l / 2), z + (l / 2)}
+            };
+            glColor3f(1.0, 0.0, 0.0);
+            int* normal0 = getNormal(cube[2], cube[1], cube[0]);
+            glNormal3iv(normal0);
+            glBegin(GL_POLYGON);
+            glVertex3iv(cube[0]);
+            glVertex3iv(cube[1]);
+            glVertex3iv(cube[2]);
+            glVertex3iv(cube[3]);
+            glEnd();
+
+            glColor3f(1.0, 1.0, 0.0);
+            int* normal1 = getNormal(cube[6], cube[5], cube[4]);
+            glNormal3iv(normal1);
+            glBegin(GL_POLYGON);
+            glVertex3iv(cube[4]);
+            glVertex3iv(cube[5]);
+            glVertex3iv(cube[6]);
+            glVertex3iv(cube[7]);
+            glEnd();
+
+            glColor3f(0.0, 1.0, 0.0);
+            int* normal2 = getNormal(cube[10], cube[9], cube[8]);
+            glNormal3iv(normal2);
+            glBegin(GL_POLYGON);
+            glVertex3iv(cube[8]);
+            glVertex3iv(cube[9]);
+            glVertex3iv(cube[10]);
+            glVertex3iv(cube[11]);
+            glEnd();
+
+            glColor3f(0.0, 1.0, 1.0);
+            int* normal3 = getNormal(cube[14], cube[13], cube[12]);
+            glNormal3iv(normal3);
+            glBegin(GL_POLYGON);
+            glVertex3iv(cube[12]);
+            glVertex3iv(cube[13]);
+            glVertex3iv(cube[14]);
+            glVertex3iv(cube[15]);
+            glEnd();
+
+            glColor3f(0.0, 0.0, 1.0);
+            int* normal4 = getNormal(cube[18], cube[17], cube[16]);
+            glNormal3iv(normal4);
+            glBegin(GL_POLYGON);
+            glVertex3iv(cube[16]);
+            glVertex3iv(cube[17]);
+            glVertex3iv(cube[18]);
+            glVertex3iv(cube[19]);
+            glEnd();
+
+            glColor3f(1.0, 1.0, 0.0);
+            int* normal5 = getNormal(cube[22], cube[21], cube[20]);
+            glNormal3iv(normal5);
+            glBegin(GL_POLYGON);
+            glVertex3iv(cube[20]);
+            glVertex3iv(cube[21]);
+            glVertex3iv(cube[22]);
+            glVertex3iv(cube[23]);
+            glEnd();
+        }
+        if (poly == 1) {
+            float tetra[][3] = {
+                               {x, y + (l / 2), z},
+                               {x - (l / 2), y - (l / 2), z + (l / 2)},
+                               {x + (l / 2), y - (l / 2), z},
+                               {x - (l / 2), y - (l / 2), z - (l / 2)},
+            };
+            glColor3f(0.0, 0.0, 0.1);
+            glBegin(GL_TRIANGLE_STRIP);
+            for (int i = 0; i < 4; i++) {
+                /*glColor3fv(color[c]);
+                c++;*/
+                glVertex3fv(tetra[i]);
+            }
+            glColor3fv(color[0]);
+            glVertex3fv(tetra[0]);
+            glColor3fv(color[1]);
+            glVertex3fv(tetra[1]);
+            glEnd();
+        }
+        if (poly == 2) {
+            glColor3f(0.6, 0.6, 0.6);
+            glPointSize((float)l);
+            glBegin(GL_POINTS);
+            glVertex3f(particle.position[0], particle.position[1], particle.position[2]);
+            glEnd();
+        }
+    }
+}
+
 void displayGround(void) {
     GLfloat mat_ambient[] = { 0.7, 0.7, 0.7, 1.0 };
     GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
@@ -283,7 +408,8 @@ void display(void) {
 
     displayCannon();
 
-    displayParticles();
+    //displayParticles();
+    drawParticles();
 
     glutSwapBuffers();
     glFlush();
@@ -297,11 +423,13 @@ float randomFloat(float min, float max) {
 //this creates a new particle and adds it to the list
 void fireParticle(void) {
     float dx, speed = 1.0;
-    dx = randomFloat(-0.2, 0.2); //random (-0.5, 0.5)
+    dx = randomFloat(-0.2, 0.2); 
     if (global.speedInvoked) {
         speed = randomFloat(1, 5);
     }
-    global.particles.push_back(Particle(dx, 1, 1, speed));
+    int polygon = rand() % 3 + 0;
+    int size = rand() % 8 + 2;
+    global.particles.push_back(Particle(dx, 1, 1, speed, polygon, size));
     if (global.particles.size() > 500) {
         global.particles.erase(global.particles.begin());//oldest at front newest at back
     }

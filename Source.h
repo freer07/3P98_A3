@@ -11,7 +11,7 @@ class Particle
 {
 public:
 	Particle();
-	Particle(float dx, float dy, float dz, float spd);
+	Particle(float dx, float dy, float dz, float spd, int shp, int sz);
 	~Particle();
 	float position[3];//x,y,z
 	float direction[3];//x,y,z
@@ -23,8 +23,8 @@ public:
 	//float color[3];//r,g,b	
 	//float angle;
 	//float angleSpeed;
-	//int size;//used to scale the particle
-	//int shape;//0 circle, 1 square, etc.	
+	int size;//used to scale the particle
+	int shape;//0 circle, 1 square, etc.	
 
 private:
 
@@ -44,9 +44,10 @@ Particle::Particle()
 	fallenOff = 0;
 
 	speed = 5;	
+	shape = 0;
 }
 
-Particle::Particle(float dx, float dy, float dz, float spd)
+Particle::Particle(float dx, float dy, float dz, float spd, int shp, int sz)
 {
 	age = 0;
 	//default location at 'end' of cannon
@@ -60,6 +61,8 @@ Particle::Particle(float dx, float dy, float dz, float spd)
 	fallenOff = 0;
 
 	speed = spd;
+	shape = shp;
+	size = sz;
 }
 
 Particle::~Particle()
