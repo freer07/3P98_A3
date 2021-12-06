@@ -1,6 +1,6 @@
 /* 
 * Alexander Freer 6452551
-* Al-Muqthadir 6148068
+* Al-Muqthadir Ajiboye 6148068
 */
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
