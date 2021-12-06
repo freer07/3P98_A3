@@ -146,7 +146,6 @@ void drawParticles(void) {
         float l = particle.size;
         float x = particle.position[0], y = particle.position[1], z = particle.position[2];
         int poly = particle.shape;
-        //float triangle[][3] = { {x, y + (l / 2), z}, {x - (l / 2), y - (l / 2), z}, {x, y - (l / 2), z - (l / 2)} };
         if (poly == 0) {
             int cube[][3] = { {x - (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y - (l / 2), z + (l / 2)}, {x - (l / 2), y - (l / 2), z + (l / 2)},
                                 {x - (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y - (l / 2), z - (l / 2)}, {x + (l / 2), y + (l / 2), z - (l / 2)}, {x - (l / 2), y + (l / 2), z - (l / 2)},
@@ -222,18 +221,6 @@ void drawParticles(void) {
                                {x + (l / 2), y - (l / 2), z},
                                {x - (l / 2), y - (l / 2), z - (l / 2)},
             };
-            //glColor3f(0.0, 0.0, 0.1);
-            //glBegin(GL_TRIANGLE_STRIP);
-            //for (int i = 0; i < 4; i++) {
-            //    /*glColor3fv(color[c]);
-            //    c++;*/
-            //    glVertex3fv(tetra[i]);
-            //}
-            //glColor3fv(color[0]);
-            //glVertex3fv(tetra[0]);
-            //glColor3fv(color[1]);
-            //glVertex3fv(tetra[1]);
-            //glEnd();
 
             glColor3f(1.0, 0.0, 0.0);
             int* normal0 = getNormal(tetra[2], tetra[3], tetra[0]);
@@ -598,7 +585,6 @@ int main(int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
     lightInit();
 
-    //TODO: add toggle for face culling
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CW);
