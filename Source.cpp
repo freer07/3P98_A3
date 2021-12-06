@@ -1,3 +1,8 @@
+/* 
+* Alexander Freer 6452551
+* Al-Muqthadir 6148068
+*/
+
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
 
@@ -50,7 +55,7 @@ void update(int val) {
     }
 
     //interate through the particles and update their position
-    for (auto& particle : global.particles) // access by reference to avoid copying
+    for (auto& particle : global.particles)
     {
         particle.position[0] = particle.position[0] + particle.direction[0] * particle.speed;
         particle.position[1] = particle.position[1] + particle.direction[1] * particle.speed;
@@ -115,39 +120,14 @@ void userintro() {
     printf("Q = quit");
 }
 
-void displayParticles(void) {
-    for (auto& particle : global.particles) // access by reference to avoid copying
-    {
-        GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
-        GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
-        GLfloat mat_specular[] = { 0.9, 0.0, 0.0, 1.0 };
-        GLfloat shiniess[] = { 0.80 };
-        glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-        glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-        glMaterialfv(GL_FRONT, GL_SHININESS, shiniess);
-
-        glColor3f(0.0, 0.0, 1.0);
-        int* normal = (int*)malloc(sizeof(int)*3);
-        normal[0] = 0;
-        normal[1] = 1;
-        normal[2] = 0;
-        glNormal3iv(normal);
-        glPointSize(5.0f);
-        glBegin(GL_POINTS);
-        glVertex3f(particle.position[0], particle.position[1], particle.position[2]);
-        glEnd();
-    }
-}
-
 void drawParticles(void) {
-    for (auto& particle : global.particles) // access by reference to avoid copying
+    for (auto& particle : global.particles)
     {
 
         GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
         GLfloat mat_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
         GLfloat mat_specular[] = { 0.9, 0.0, 0.0, 1.0 };
-        GLfloat shiniess[] = { 0.80 };
+        GLfloat shiniess[] = { 0.60 };
         glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
         glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
         glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
@@ -444,7 +424,6 @@ void display(void) {
 
     displayCannon();
 
-    //displayParticles();
     drawParticles();
 
     glutSwapBuffers();

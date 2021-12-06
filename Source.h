@@ -1,3 +1,8 @@
+/*
+* Alexander Freer 6452551
+* Al-Muqthadir 6148068
+*/
+
 #pragma once
 #include <stdlib.h>
 #include <stdio.h>
@@ -18,11 +23,6 @@ public:
 	float speed;
 	int age;
 	int fallenOff;
-
-	//TODO: Implement these attributes
-	//float color[3];//r,g,b	
-	//float angle;
-	//float angleSpeed;
 	int size;//used to scale the particle
 	int shape;//0 circle, 1 square, etc.	
 
