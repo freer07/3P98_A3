@@ -10,12 +10,13 @@ The objects are annimated in **real time**, including their interactions with th
 
 ***
 
-##### Controls
----Toggle Fire Modes---
-1 = (default) constant stream
-2 = Full Auto ('F' to fire)
-3 = Semi-Auto ('F' to fire)
----------------------------
+##### Controls  
+
+---
+
+1 = (default) constant stream  
+2 = Full Auto ('F' to fire)  
+3 = Semi-Auto ('F' to fire)  
 S = start/stop random speeds
 G = Gouraud shaded
 H = (default)Flat shaded
