@@ -1,8 +1,8 @@
 # OpenGL Particle Cannon 
 ### Real Time Graphics Assignment
-This assignment was a demonstation of 3D animation programming using OpenGL.  
+This assignment was a demonstration of 3D animation programming using OpenGL.  
 We created a particle cannon animation which spawned 3D objects of random sizes and trajectories.   
-The objects are annimated in **real time**, including their interactions with the surface that they "bounce" off. 
+The objects are animated in **real time**, including their interactions with the surface that they "bounce" off. 
 
 ***
 
