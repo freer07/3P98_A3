@@ -10,19 +10,16 @@ The objects are annimated in **real time**, including their interactions with th
 
 ***
 
-##### Controls  
-
----
-
+### Controls  
 1 = (default) constant stream  
 2 = Full Auto ('F' to fire)  
 3 = Semi-Auto ('F' to fire)  
-S = start/stop random speeds
-G = Gouraud shaded
-H = (default)Flat shaded
-Left mouse = rotate left faster
-Right mouse = rotate right faster
-Middle mouse = reset
-x, y, z = rotate about x, y, or z axis
-R = reset simulation(including orientation)
-Q = quit
+S = start/stop random speeds  
+G = Gouraud shaded  
+H = (default)Flat shaded  
+Left mouse = rotate left faster  
+Right mouse = rotate right faster  
+Middle mouse = reset  
+x, y, z = rotate about x, y, or z axis  
+R = reset simulation(including orientation)  
+Q = quit  
